@@ -1,7 +1,10 @@
 # homebridge-myskoda
 
 Homebridge plugin for Škoda vehicles, built on the official
-[MyŠkoda Public API](https://public.api.connect.skoda-auto.cz/docs).
+[MyŠkoda Public API](https://public.api.connect.skoda-auto.cz/docs) (v1,
+API-key based). It does not use the legacy unofficial app API
+(`mysmob.api.connect.skoda-auto.cz`, username/password login) that Škoda is
+retiring.
 
 It exposes per vehicle:
 

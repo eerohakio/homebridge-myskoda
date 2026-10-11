@@ -1,6 +1,9 @@
 /**
- * Minimal client for the official MyŠkoda Public API
- * (https://public.api.connect.skoda-auto.cz/docs).
+ * Minimal client for the official MyŠkoda Public API v1
+ * (https://public.api.connect.skoda-auto.cz/docs), launched in 2026.
+ *
+ * This is not the legacy, unofficial app API (mysmob.api.connect.skoda-auto.cz
+ * with username/password login), which Škoda is shutting down.
  *
  * Authentication is a per-account API key created in the MyŠkoda app
  * (Profile → Smart Home), sent in the `X-API-Key` header. Commands are
@@ -172,7 +175,7 @@ export class MySkodaClient {
   }
 
   startAuxiliaryHeating(vin: string, options: AuxiliaryHeatingStartOptions): Promise<void> {
-    const body: Record<string, unknown> = { spin: options.spin };
+    const body: Record<string, unknown> = { spin: options.spin, startMode: 'HEATING' };
     if (options.targetTemperatureCelsius !== undefined) {
       body.targetTemperature = celsius(options.targetTemperatureCelsius);
     }

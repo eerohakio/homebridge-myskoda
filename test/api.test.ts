@@ -86,6 +86,7 @@ describe('MySkodaClient', () => {
     });
     expect(call(fetch).body).toEqual({
       spin: '1234',
+      startMode: 'HEATING',
       targetTemperature: { value: 23, unit: 'CELSIUS' },
       durationInSeconds: 1800,
     });
