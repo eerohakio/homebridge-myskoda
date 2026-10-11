@@ -1,0 +1,141 @@
+{
+  "pluginAlias": "MySkoda",
+  "pluginType": "platform",
+  "singular": true,
+  "strictValidation": false,
+  "headerDisplay": "Control charging, air conditioning and auxiliary heating of your Škoda through the official [MyŠkoda Public API](https://public.api.connect.skoda-auto.cz/docs). Create an API key in the MyŠkoda app under **Profile → Smart Home** and select the vehicles it may access.",
+  "footerDisplay": "The API allows about 20 requests per hour per vehicle, including commands. Keep the poll interval at 15 minutes or more if you use commands often.",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "title": "Platform Name",
+        "type": "string",
+        "default": "MySkoda",
+        "required": true
+      },
+      "apiKey": {
+        "title": "API Key",
+        "type": "string",
+        "required": true,
+        "description": "Created in the MyŠkoda app (Profile → Smart Home). Keys expire; the log warns a week before."
+      },
+      "pollIntervalMinutes": {
+        "title": "Poll Interval (minutes)",
+        "type": "integer",
+        "default": 15,
+        "minimum": 5,
+        "maximum": 240
+      },
+      "useSandbox": {
+        "title": "Use sandbox API",
+        "type": "boolean",
+        "default": false,
+        "description": "Talk to public.test-api.connect.skoda-auto.cz instead of the production API (for development)."
+      },
+      "vehicles": {
+        "title": "Vehicles",
+        "type": "array",
+        "required": true,
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "properties": {
+            "vin": {
+              "title": "VIN",
+              "type": "string",
+              "required": true,
+              "pattern": "^[A-HJ-NPR-Za-hj-npr-z0-9]{17}$",
+              "description": "17-character vehicle identification number."
+            },
+            "name": {
+              "title": "Name",
+              "type": "string",
+              "placeholder": "Enyaq"
+            },
+            "spin": {
+              "title": "S-PIN",
+              "type": "string",
+              "description": "Required for auxiliary heating. Leave empty to hide auxiliary heating.",
+              "x-schema-form": { "type": "password" }
+            },
+            "defaultTargetTemperature": {
+              "title": "Default target temperature (°C)",
+              "type": "number",
+              "default": 21,
+              "minimum": 16,
+              "maximum": 30,
+              "multipleOf": 0.5
+            },
+            "exposeCharging": {
+              "title": "Charging switch",
+              "type": "boolean",
+              "default": true
+            },
+            "exposeBattery": {
+              "title": "Battery level",
+              "type": "boolean",
+              "default": true
+            },
+            "exposeAirConditioning": {
+              "title": "Air conditioning thermostat",
+              "type": "boolean",
+              "default": true
+            },
+            "airConditioningWithoutExternalPower": {
+              "title": "Allow air conditioning on battery (not plugged in)",
+              "type": "boolean"
+            },
+            "exposeAuxiliaryHeating": {
+              "title": "Auxiliary heating thermostat",
+              "type": "boolean",
+              "default": true
+            },
+            "auxiliaryHeatingDurationMinutes": {
+              "title": "Auxiliary heating duration (minutes)",
+              "type": "integer",
+              "minimum": 10,
+              "maximum": 60,
+              "description": "Leave empty to use the vehicle's setting."
+            }
+          }
+        }
+      }
+    }
+  },
+  "layout": [
+    "name",
+    "apiKey",
+    {
+      "key": "vehicles",
+      "type": "array",
+      "orderable": false,
+      "buttonText": "Add vehicle",
+      "items": [
+        "vehicles[].vin",
+        "vehicles[].name",
+        "vehicles[].spin",
+        "vehicles[].defaultTargetTemperature",
+        {
+          "type": "fieldset",
+          "title": "Exposed controls",
+          "expandable": true,
+          "items": [
+            "vehicles[].exposeCharging",
+            "vehicles[].exposeBattery",
+            "vehicles[].exposeAirConditioning",
+            "vehicles[].airConditioningWithoutExternalPower",
+            "vehicles[].exposeAuxiliaryHeating",
+            "vehicles[].auxiliaryHeatingDurationMinutes"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "fieldset",
+      "title": "Advanced",
+      "expandable": true,
+      "items": ["pollIntervalMinutes", "useSandbox"]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "homebridge-myskoda",
+  "displayName": "MyŠkoda",
+  "version": "0.1.0",
+  "description": "Homebridge plugin for Škoda vehicles using the official MyŠkoda Public API: charging, air conditioning and auxiliary heating.",
+  "type": "module",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "author": "Eero Hakio",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eerohakio/homebridge-myskoda.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eerohakio/homebridge-myskoda/issues"
+  },
+  "keywords": [
+    "homebridge-plugin",
+    "skoda",
+    "myskoda",
+    "ev",
+    "charging",
+    "climatisation"
+  ],
+  "files": [
+    "dist",
+    "config.schema.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": "^20.18.0 || ^22.10.0 || ^24.0.0",
+    "homebridge": "^1.8.0 || ^2.0.0"
+  },
+  "scripts": {
+    "build": "rimraf ./dist && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+  },
+  "devDependencies": {
+    "@homebridge/hap-nodejs": "^2.2.2",
+    "@types/node": "^22.20.5",
+    "homebridge": "^2.4.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}
